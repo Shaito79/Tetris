@@ -12,6 +12,6 @@ public class DatabaseTest {
 
      
         HighscoreWindow window = new HighscoreWindow();
-        window.setVisible(true); // Ganz wichtig, sonst sieht man nix!
+        window.setVisible(true);
     }
 }

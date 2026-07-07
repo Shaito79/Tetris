@@ -8,6 +8,7 @@ import java.sql.ResultSet; // Neu importiert!
 
 public class DatabaseManager {
 	
+	
 	private Connection connection;
 	
 	public void connect() {

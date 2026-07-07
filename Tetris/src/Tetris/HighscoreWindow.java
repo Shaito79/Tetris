@@ -18,6 +18,7 @@ public class HighscoreWindow extends JFrame {
         loadHighscores();
     }
 
+    
     private void initialize() {
         
         setTitle("Tetris - Top 10 Highscores");
