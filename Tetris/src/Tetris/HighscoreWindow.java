@@ -17,7 +17,6 @@ public class HighscoreWindow extends JFrame {
         initialize();
         loadHighscores();
     }
-
     
     private void initialize() {
         

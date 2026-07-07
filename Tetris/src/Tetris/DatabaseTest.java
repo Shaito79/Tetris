@@ -10,7 +10,7 @@ public class DatabaseTest {
         db.createTableIfNotExists();
         db.disconnect();
 
-     
+    
         HighscoreWindow window = new HighscoreWindow();
         window.setVisible(true);
     }
