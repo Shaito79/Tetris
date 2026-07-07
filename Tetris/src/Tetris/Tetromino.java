@@ -1,4 +1,8 @@
+
+
 package Tetris;
+
+import java.util.Random;
 
 public class Tetromino {
 	private final int[][][][] pieces = {
@@ -155,8 +159,11 @@ public class Tetromino {
 		        }
 		    }
 		};
+	private int x, y, type, rot;
+	
 	public int[][] getPiece(int piece, int rotation){
 		return pieces[piece][rotation];
 	}
+	
 	
 }
