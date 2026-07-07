@@ -19,7 +19,7 @@ public class HighscoreWindow extends JFrame {
     }
 
     private void initialize() {
-        // 1. Fenster-Größe und Titel
+        
         setTitle("Tetris - Top 10 Highscores");
         setBounds(100, 100, 800, 600); // 800 Breit, 600 Hoch
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Schließt nur dieses Fenster, nicht das ganze Spiel
