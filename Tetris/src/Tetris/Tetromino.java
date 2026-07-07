@@ -159,7 +159,6 @@ public class Tetromino {
 		        }
 		    }
 		};
-	private int x, y, type, rot;
 	
 	public int[][] getPiece(int piece, int rotation){
 		return pieces[piece][rotation];

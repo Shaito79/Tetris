@@ -45,9 +45,7 @@ public class Field {
 				isFull &= feld >= 0;
 			if(isFull) zwischenergebnis.add(i);
 		}
-		int[] ergebnis = zwischenergebnis.stream()
-                .mapToInt(Integer::intValue)
-                .toArray();
+		int[] ergebnis = zwischenergebnis.stream().mapToInt(Integer::intValue).toArray();
 
 		return ergebnis;
 	}
@@ -117,7 +115,9 @@ public class Field {
 				}
 				for (int i = voll; i >= 0; i--) {
 					newField[i] = field[i-1];
+					newField[0] = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 				}
+				this.field = newField;
 			}
 			objTree.getTimer().unpause();
 		}
