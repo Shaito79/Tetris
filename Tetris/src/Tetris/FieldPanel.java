@@ -10,7 +10,7 @@ public class FieldPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private ObjTree objTree;
-	private Field field;
+
 	public static final int BLOCK_GROESSE = 30;
 
 	/**
@@ -18,41 +18,76 @@ public class FieldPanel extends JPanel {
 	 */
 	
 	public FieldPanel(ObjTree objTree) {
-		this.field = objTree.getField();
-
+		this.objTree=objTree;
 	    	setPreferredSize(new Dimension(
-	    			field.BREITE * BLOCK_GROESSE,
-	                field.HOEHE * BLOCK_GROESSE));
+	    			objTree.getField().BREITE * BLOCK_GROESSE,
+	    			objTree.getField().HOEHE * BLOCK_GROESSE));
 	    }
 
-	    @Override
-	    protected void paintComponent(Graphics g) {
-	        super.paintComponent(g);
+	@Override
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g);
 
-	        for (int y = 0; y < field.HOEHE; y++) {
-	            for (int x = 0; x < field.BREITE; x++) {
+	    Field field = objTree.getField();
 
-	                int block = field.getBlock(x,y);
+	    // Bereits abgelegte Blöcke zeichnen
+	    for (int y = 2; y < field.HOEHE; y++) {
+	        for (int x = 0; x < field.BREITE; x++) {
 
-	                if (block != -1) {
-	                    g.setColor(getFarbe(block));
-	                    g.fillRect(
-	                            x * BLOCK_GROESSE,
-	                            y * BLOCK_GROESSE,
-	                            BLOCK_GROESSE,
-	                            BLOCK_GROESSE);
-	                }
+	            int block = field.getBlock(x, y);
 
-	                // Gitter zeichnen
-	                g.setColor(Color.GRAY);
-	                g.drawRect(
+	            if (block != -1) {
+	                g.setColor(getFarbe(block));
+	                g.fillRect(
 	                        x * BLOCK_GROESSE,
-	                        y * BLOCK_GROESSE,
+	                        (y - 2) * BLOCK_GROESSE,
 	                        BLOCK_GROESSE,
 	                        BLOCK_GROESSE);
 	            }
+
+	            g.setColor(Color.GRAY);
+	            g.drawRect(
+	                    x * BLOCK_GROESSE,
+	                    (y -2) * BLOCK_GROESSE,
+	                    BLOCK_GROESSE,
+	                    BLOCK_GROESSE);
 	        }
 	    }
+
+	    // Aktuelles Tetromino zeichnen
+	    int[][] piece = objTree.getTetromino().getPiece(
+	            field.getType(),
+	            field.getRotation());
+
+	    g.setColor(getFarbe(field.getType()));
+
+	    for (int ty = 0; ty < piece.length; ty++) {
+	        for (int tx = 0; tx < piece[ty].length; tx++) {
+
+	            if (piece[ty][tx] == 1) {
+
+	                int gx = field.getX() + tx;
+	                int gy = field.getY() + ty - 2;
+	                if(gy >= 0) {
+	                	g.fillRect(
+	                        gx * BLOCK_GROESSE,
+	                        gy * BLOCK_GROESSE,
+	                        BLOCK_GROESSE,
+	                        BLOCK_GROESSE);
+
+	                	g.setColor(Color.GRAY);
+	                	g.drawRect(
+	                        gx * BLOCK_GROESSE,
+	                        gy * BLOCK_GROESSE,
+	                        BLOCK_GROESSE,
+	                        BLOCK_GROESSE);
+
+	                	g.setColor(getFarbe(field.getType()));
+	                }
+	            }
+	        }
+	    }
+	}
 
 	    private Color getFarbe(int block) {
 	        switch (block) {
@@ -62,7 +97,7 @@ public class FieldPanel extends JPanel {
 	            case 4: return Color.GREEN;
 	            case 5: return Color.RED;
 	            case 6: return Color.BLUE;
-	            case 7: return Color.ORANGE;
+	            case 0: return Color.ORANGE;
 	            default: return Color.BLACK;
 	        }
 	    }

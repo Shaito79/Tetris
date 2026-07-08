@@ -2,7 +2,11 @@ package Tetris;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 
 
@@ -10,7 +14,12 @@ import javax.swing.*;
 public class Gui {
 // Die Variable frame speichert dieses Fenster, damit man später Einstellungen daran vornehmen kann.
 	private JFrame fenster;
-
+	private JPanel panel;
+	private ObjTree objTree;
+	private FieldPanel fieldPanel ;
+	public JLabel lblRows;
+	public JLabel lblLevel;
+	public JLabel lblScore;
 
 	public static void main(String[] args) {
 		
@@ -36,7 +45,12 @@ public class Gui {
 	 * Diese Methode erstellt das Fenster.
 	 */
 	public Gui() {
+		this.objTree = ObjTree.getObjTree();
+		objTree.setGui(this);
 		initialize();
+		objTree.setFieldPanel(fieldPanel);
+		initKeyBindings();
+		
 	}
 
 	/**
@@ -57,16 +71,15 @@ public class Gui {
 		
 		
 		
-		JPanel panel = new JPanel();
-		fenster.add(panel);      // Panel in das Fenster einfügen
+		panel = new JPanel();
+		fenster.getContentPane().add(panel);      // Panel in das Fenster einfügen
 		
 		panel.setLayout(null);
 		
 		// fügt das spielfeld ein
-		ObjTree objTree = ObjTree.getObjTree();
 		objTree.setField();
 
-		FieldPanel fieldPanel = new FieldPanel(objTree);
+		fieldPanel = new FieldPanel(objTree);
 		fieldPanel.setBounds(50, 100, 300, 600);
 		panel.add(fieldPanel);
 		
@@ -74,6 +87,11 @@ public class Gui {
 		
 		
 		JButton button = new JButton("AN");			// button erstellen
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				objTree.newGame();
+			}
+		});
 			button.setBounds(100, 20, 100, 40);		// posetion
 			button.setBackground(Color.GREEN);
 			panel.add(button); 						// Button in das Panel einfügen		
@@ -94,13 +112,21 @@ public class Gui {
 			scoreBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
 			panel.add(scoreBox);
 			
-		JLabel scoreN = new JLabel("SCORE      LVL");
+		JLabel scoreN = new JLabel("SCORE      LVL      ROWS");
 			scoreN.setBounds(10, 10, 200, 20);
 			scoreBox.add(scoreN);
 
-		JLabel score = new JLabel("1250        4");
-			score.setBounds(10, 35, 200, 20);
-			scoreBox.add(score);
+			lblScore = new JLabel("0");
+			lblScore.setBounds(10, 35, 39, 20);
+			scoreBox.add(lblScore);
+			
+			lblLevel = new JLabel("1");
+			lblLevel.setBounds(53, 35, 28, 20);
+			scoreBox.add(lblLevel);
+			
+			lblRows = new JLabel("0");
+			lblRows.setBounds(102, 40, 44, 12);
+			scoreBox.add(lblRows);
 
 			
 			
@@ -153,5 +179,45 @@ public class Gui {
 		
 		
 	}
+	private void initKeyBindings() {
 
+	    InputMap inputMap = panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    ActionMap actionMap = panel.getActionMap();
+
+	    // Links
+	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+	    actionMap.put("left", new AbstractAction() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            objTree.getField().moveLeft();
+	        }
+	    });
+
+	    // Rechts
+	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
+	    actionMap.put("right", new AbstractAction() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	objTree.getField().moveRight();
+	        }
+	    });
+
+	    // Oben
+	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
+	    actionMap.put("up", new AbstractAction() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            objTree.getField().rotatePiece();
+	        }
+	    });
+
+	    // Unten
+	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
+	    actionMap.put("down", new AbstractAction() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            objTree.getField().dropDown();
+	        }
+	    });
+	}
 }

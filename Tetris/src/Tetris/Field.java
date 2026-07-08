@@ -21,15 +21,28 @@ public class Field {
 	public Field(ObjTree objTree) {
 		this.objTree = objTree;
 		field = new int[HOEHE][BREITE];
-		for (int[] reihe : field) {
-			for (int feld : reihe) {
-				feld = -1;
-			}
-		}
+		for(int y=0;y<HOEHE;y++)
+		    for(int x=0;x<BREITE;x++)
+		        field[y][x]=-1;
 	}
 	public int getBlock(int x, int y) {
 		int ergebnis = this.field[y][x];
 		return ergebnis;
+	}
+	public int getX() {
+	    return x;
+	}
+
+	public int getY() {
+	    return y;
+	}
+
+	public int getType() {
+	    return type;
+	}
+
+	public int getRotation() {
+	    return rot;
 	}
 	/**
 	 * 
@@ -46,22 +59,33 @@ public class Field {
 			if(isFull) zwischenergebnis.add(i);
 		}
 		int[] ergebnis = zwischenergebnis.stream().mapToInt(Integer::intValue).toArray();
+		int len = ergebnis.length;
+		objTree.getScore().addScore(len);
+		objTree.getScore().addRows(len);
 
 		return ergebnis;
 	}
 	public void putNewPiece() {
-		type = random.nextInt(8);
+		type = random.nextInt(7);
 		x = 4;
 		y = 0;
 		rot = 0;
+		if(collides(rot)) gameOver();
+		objTree.getFieldPanel().repaint();
+	}
+	private void gameOver() {
+		objTree.getTimer().pause();
+		
 	}
 	public void moveLeft() {
-		if(x > 0) x--;
+		if(!collides(rot, x-1, y)) x--;
+		objTree.getFieldPanel().repaint();
+		
 	}
 	public void moveRight() {
-		int[][] temp = objTree.getTetromino().getPiece(type, rot);
-		int add = temp[0].length;
-		if((x + add) < 10) x++;
+
+		if(!collides(rot, x+1, y)) x++;
+		objTree.getFieldPanel().repaint();
 	}
 	public boolean moveOneDown() {
 		boolean blockDarunter = false;
@@ -86,20 +110,21 @@ public class Field {
 			return true;
 		}
 		else y++;
+		objTree.getFieldPanel().repaint();
 		return false;
 		
 	}
 	public void dropDown() {
-		boolean gedropped = false;
-		while (y < 22) {
-			if (moveOneDown()) break;
-		}
+		
+		while (!moveOneDown());
+			
+		
 	}
 	public void setPiece() {
 		int gx, gy;
 		int[][] temp = objTree.getTetromino().getPiece(type, rot);
-		for(int tx = 0; tx <= temp[0].length; tx++) {
-			for(int ty = 0; ty <= temp.length; ty ++) {
+		for(int tx = 0; tx < temp[0].length; tx++) {
+			for(int ty = 0; ty < temp.length; ty ++) {
 				gx = x + tx;
 				gy = y + ty;
 				if (temp[ty][tx] == 1) field[gy][gx] = type;
@@ -110,23 +135,26 @@ public class Field {
 			objTree.getTimer().pause();
 			for(int voll : volleZeilen) {
 				int[][] newField = new int[HOEHE][BREITE];
-				for (int i = HOEHE; i> voll; i--) {
+				for (int i = HOEHE-1; i> voll; i--) {
 					newField[i] = field[i];
 				}
-				for (int i = voll; i >= 0; i--) {
+				for (int i = voll; i > 0; i--) {
 					newField[i] = field[i-1];
 					newField[0] = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 				}
 				this.field = newField;
 			}
+			objTree.getFieldPanel().repaint();
 			objTree.getTimer().unpause();
 		}
+		putNewPiece();
 		
 	}
 	public void rotatePiece() {
 		int neueRot = (rot + 1) %4;
 		if(!collides(neueRot)) rot = neueRot;
 		else if(wallKick(neueRot)) rot = neueRot;
+		objTree.getFieldPanel().repaint();
 		
 	}
 	public boolean wallKick(int rot) {
