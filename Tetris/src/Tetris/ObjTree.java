@@ -34,8 +34,8 @@ public class ObjTree {
 		return field;
 	}
 
-	public void setField(Field field) {
-		this.field = new Field(this);
+	public void setField() {
+	    this.field = new Field(this);
 	}
 
 
