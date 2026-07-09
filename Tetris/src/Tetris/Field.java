@@ -1,5 +1,6 @@
 package Tetris;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ public class Field {
 	public final int HOEHE = 22;
 	public int[][] field;
 	private int x, y, type, rot;
+	private ArrayDeque<Integer> preview = new ArrayDeque<Integer>();
 	
 	/**
 	 * ein field ist ein Datentyp, der abgelegte Steine im Tertis Feld speichert. Dazu wird das gesammte Spielfeld in einem 2 Dimensionalen Array repesentiert.
@@ -65,8 +67,22 @@ public class Field {
 
 		return ergebnis;
 	}
+	public void fillPreview() {
+		addToPreview();
+		addToPreview();
+		addToPreview();
+	}
+	private void addToPreview() {
+		preview.add(random.nextInt(7));
+		objTree.getPreview().repaint();
+		
+	}
+	public ArrayDeque<Integer> getPreview() {
+		return preview;
+	}
 	public void putNewPiece() {
-		type = random.nextInt(7);
+		type = preview.poll();
+		addToPreview();
 		x = 4;
 		y = 0;
 		rot = 0;

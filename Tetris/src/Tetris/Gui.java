@@ -161,7 +161,7 @@ public class Gui {
 			
 			
 			
-		Preview previewBox = new Preview();
+		Preview previewBox = new Preview(objTree);
 			previewBox.setBounds(440, 100, 200, 300);
 			previewBox.setBackground(new Color(200, 120, 255));
 			panel.add(previewBox);
