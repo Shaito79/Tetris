@@ -67,6 +67,7 @@ public class Field {
 
 		return ergebnis;
 	}
+
 	public void fillPreview() {
 		addToPreview();
 		addToPreview();
@@ -123,6 +124,7 @@ public class Field {
 		}
 		if (blockDarunter) {
 			setPiece();
+			objTree.getFieldPanel().repaint();
 			return true;
 		}
 		else y++;
@@ -136,7 +138,9 @@ public class Field {
 			
 		
 	}
+
 	public void setPiece() {
+		// Tetromino dem Hintergrund hinzufügen
 		int gx, gy;
 		int[][] temp = objTree.getTetromino().getPiece(type, rot);
 		for(int tx = 0; tx < temp[0].length; tx++) {
@@ -146,8 +150,10 @@ public class Field {
 				if (temp[ty][tx] == 1) field[gy][gx] = type;
 			}
 		}
+		// auf volle Reihen testen
 		int[] volleZeilen  = isFull();
 		if(volleZeilen.length > 0) {
+			objTree.getFieldPanel().repaint();
 			objTree.getTimer().pause();
 			for(int voll : volleZeilen) {
 				int[][] newField = new int[HOEHE][BREITE];
@@ -166,6 +172,7 @@ public class Field {
 		putNewPiece();
 		
 	}
+
 	public void rotatePiece() {
 		int neueRot = (rot + 1) %4;
 		if(!collides(neueRot)) rot = neueRot;

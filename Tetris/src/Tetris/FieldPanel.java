@@ -10,6 +10,7 @@ public class FieldPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private ObjTree objTree;
+	public int[] invisible;
 
 	public static final int BLOCK_GROESSE = 30;
 
@@ -32,26 +33,28 @@ public class FieldPanel extends JPanel {
 
 	    // Bereits abgelegte Blöcke zeichnen
 	    for (int y = 2; y < field.HOEHE; y++) {
-	        for (int x = 0; x < field.BREITE; x++) {
 
-	            int block = field.getBlock(x, y);
+	    		for (int x = 0; x < field.BREITE; x++) {
+	        	
+	    			int block = field.getBlock(x, y);
 
-	            if (block != -1) {
-	                g.setColor(ColorScheme.getColor(block, objTree.getTimer().getLevel()));
-	                g.fillRect(
+	    			if ((block != -1)) {
+	    				g.setColor(ColorScheme.getColor(block, objTree.getTimer().getLevel()));
+	    				g.fillRect(
 	                        x * BLOCK_GROESSE,
 	                        (y - 2) * BLOCK_GROESSE,
 	                        BLOCK_GROESSE,
 	                        BLOCK_GROESSE);
-	            }
+	    			}
 
-	            g.setColor(Color.GRAY);
-	            g.drawRect(
+	    			g.setColor(Color.GRAY);
+	    			g.drawRect(
 	                    x * BLOCK_GROESSE,
 	                    (y -2) * BLOCK_GROESSE,
 	                    BLOCK_GROESSE,
 	                    BLOCK_GROESSE);
 	        }
+	    	
 	    }
 
 	    // Aktuelles Tetromino zeichnen

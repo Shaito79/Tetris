@@ -14,7 +14,8 @@ public class Timer extends Thread{
 			33, 33, 33, 
 			33, 33, 33, 
 			33, 16};
-	private boolean run = true;
+	private volatile boolean run = true;
+	private volatile boolean terminated = false;
 	
 	public Timer(ObjTree objTree){
 	    this.objTree=objTree;
@@ -22,20 +23,24 @@ public class Timer extends Thread{
 	@Override
 	public void run() {
 		if (objTree == null) this.objTree = ObjTree.getObjTree();
-		while(true) {
+		while(!terminated) {
 			try {
-			while(!run) {
+			while(!run  && !terminated) {
 				Thread.sleep(10);
 				}
-			
+				if(terminated) break;
 				if (level >= timing.length)
 					Thread.sleep(16);
 				else
 					Thread.sleep(timing[level - 1]);
 			} catch (Exception e) {
 			}
-			objTree.getField().moveOneDown();
+			if(!terminated) objTree.getField().moveOneDown();
 		}
+	}
+	public void terminate() {
+		terminated = true;
+		run = true; // falls gerade pausiert, damit die innere Schleife nicht hängen bleibt
 	}
 	
 	public int getLevel() {

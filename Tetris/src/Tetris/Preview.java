@@ -25,7 +25,7 @@ public class Preview extends JPanel {
 	private ObjTree objTree;
 
 	// kleinere Blockgröße als im Spielfeld, da hier nur eine Vorschau gezeigt wird
-	public static final int BLOCK_GROESSE = 20;
+	public static final int BLOCK_GROESSE = 30;
 
 	// Höhe, die einem einzelnen Vorschau-Slot zur Verfügung steht
 	private static final int SLOT_HOEHE = 90;
