@@ -166,6 +166,8 @@ public class Gui {
 			previewBox.setBackground(new Color(200, 120, 255));
 			panel.add(previewBox);
 			
+			  ihkj
+			
 			
 		/**						abstand						fenstergrösse
 			fenster.setBounds(  200, 200,      			   700,     800);
