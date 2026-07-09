@@ -40,7 +40,7 @@ public class Score {
 		
 		this.rows += add;
 		objTree.getGui().lblRows.setText(Integer.toString(this.rows));
-		if(objTree.getTimer().getLevel() < (this.rows/10)) {
+		if(objTree.getTimer().getLevel() < ((this.rows + 10)/10)) {
 			objTree.getTimer().addLevel();
 			objTree.getGui().lblLevel.setText(Integer.toString(objTree.getTimer().getLevel()));
 		}
