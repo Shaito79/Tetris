@@ -37,7 +37,7 @@ public class FieldPanel extends JPanel {
 	            int block = field.getBlock(x, y);
 
 	            if (block != -1) {
-	                g.setColor(getFarbe(block));
+	                g.setColor(ColorScheme.getColor(block, objTree.getTimer().getLevel()));
 	                g.fillRect(
 	                        x * BLOCK_GROESSE,
 	                        (y - 2) * BLOCK_GROESSE,
@@ -59,7 +59,7 @@ public class FieldPanel extends JPanel {
 	            field.getType(),
 	            field.getRotation());
 
-	    g.setColor(getFarbe(field.getType()));
+	    g.setColor(ColorScheme.getColor(field.getType(), objTree.getTimer().getLevel()));
 
 	    for (int ty = 0; ty < piece.length; ty++) {
 	        for (int tx = 0; tx < piece[ty].length; tx++) {
@@ -82,23 +82,23 @@ public class FieldPanel extends JPanel {
 	                        BLOCK_GROESSE,
 	                        BLOCK_GROESSE);
 
-	                	g.setColor(getFarbe(field.getType()));
+	                	g.setColor(ColorScheme.getColor(field.getType(), objTree.getTimer().getLevel()));
 	                }
 	            }
 	        }
 	    }
 	}
 
-	    private Color getFarbe(int block) {
-	        switch (block) {
-	            case 1: return Color.CYAN;
-	            case 2: return Color.YELLOW;
-	            case 3: return Color.MAGENTA;
-	            case 4: return Color.GREEN;
-	            case 5: return Color.RED;
-	            case 6: return Color.BLUE;
-	            case 0: return Color.ORANGE;
-	            default: return Color.BLACK;
-	        }
-	    }
+//	    private Color getFarbe(int block) {
+//	        switch (block) {
+//	            case 1: return Color.CYAN;
+//	            case 2: return Color.YELLOW;
+//	            case 3: return Color.MAGENTA;
+//	            case 4: return Color.GREEN;
+//	            case 5: return Color.RED;
+//	            case 6: return Color.BLUE;
+//	            case 0: return Color.ORANGE;
+//	            default: return Color.BLACK;
+//	        }
+//	    }
 	}
