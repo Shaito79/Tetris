@@ -65,6 +65,7 @@ public class Gui {
 		
 		
 
+
 		
 		
 		
@@ -116,6 +117,8 @@ public class Gui {
 			scoreBox.setBounds(440, 20, 200, 60);  
 			scoreBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
 			panel.add(scoreBox);
+			scoreBox.setBackground(new Color(180, 220, 255));   // hellblau
+			scoreBox.setOpaque(true);                           // Hintergrund sichtbar machen
 			
 		JLabel scoreN = new JLabel("SCORE      LVL      ROWS");
 			scoreN.setBounds(10, 10, 200, 20);
@@ -136,23 +139,32 @@ public class Gui {
 			
 			
 		
-			HighscoreWindow highscoreBox = new HighscoreWindow();
-			highscoreBox.setBounds(440, 100, 200, 600);
-			highscoreBox.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3, true));
+		HighscoreWindow highscoreBox = new HighscoreWindow();
+			highscoreBox.setBounds(440, 410, 200, 300);
+
 			panel.add(highscoreBox);
 
 			
-		JLabel HIGHSCOR = new JLabel("HIGHSCORE");
+		JLabel HIGHSCOR = new JLabel();
 			HIGHSCOR.setBounds(10, 5, 200, 20);
 			highscoreBox.add(HIGHSCOR);
 
 		
-		JLabel NameD = new JLabel("sebastian   9999   07.07.2026");
+		JLabel NameD = new JLabel();
 			NameD.setBounds(10, 30, 200, 20);
 			highscoreBox.add(NameD);
 				
 
 
+			panel.setBackground(new Color(255, 255, 0));  // hintergrundfar
+			panel.setOpaque(true);		
+			
+			
+			
+		Preview previewBox = new Preview();
+			previewBox.setBounds(440, 100, 200, 300);
+			previewBox.setBackground(new Color(200, 120, 255));
+			panel.add(previewBox);
 			
 			
 		/**						abstand						fenstergrösse

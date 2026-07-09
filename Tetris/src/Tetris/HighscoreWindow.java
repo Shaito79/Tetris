@@ -1,5 +1,5 @@
 package Tetris;
-
+import java.awt.Font;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
@@ -19,17 +19,29 @@ public class HighscoreWindow extends JPanel {
 
     private void initialize() {
         setLayout(null);
-        setBackground(Color.WHITE);
+        setBackground(new Color(255, 165, 0));  // farbe high..
         setOpaque(true);
 
         JLabel title = new JLabel("HIGHSCORE");
-        title.setBounds(10, 5, 180, 20);
+        title.setBounds(30, 8, 194, 30);
+        title.setFont(new Font("Monospaced", Font.BOLD, 26));  // schrift
+        
         add(title);
 
         tableHighscores = new JTable();
         JScrollPane scrollPane = new JScrollPane(tableHighscores);
         // passend zur blauen Box (200 x 600), abzüglich Platz für Titel und Rahmen
-        scrollPane.setBounds(0, 30, 194, 560);
+        scrollPane.setBounds(0, 40, 194, 560);
+        
+        scrollPane.getViewport().setBackground(new Color(255, 165, 0));   //farb
+        scrollPane.setBorder(null);
+
+      /*  tableHighscores.setBackground(new Color(255, 165, 0));			//farb
+        tableHighscores.setForeground(Color.WHITE);
+      tableHighscores.setGridColor(Color.LIGHT_GRAY);
+       */ 
+        
+        
         add(scrollPane);
     }
 
