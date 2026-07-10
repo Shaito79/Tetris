@@ -4,6 +4,11 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+import javax.swing.JOptionPane;
+
+
+
 public class Field {
 
 	private Random random = new Random();
@@ -94,6 +99,10 @@ public class Field {
 	}
 	private void gameOver() {
 		objTree.getTimer().pause();
+		String name = JOptionPane.showInputDialog("Du hast verloren!\nAber gib deinen Namen ein, dann schauen wir ob du einen Highscore hast.");
+		int points = objTree.getScore().getScore();
+		int rows = objTree.getScore().getRows();
+		objTree.getDatabaseManager().saveHighscore(name, rows, points);
 		
 	}
 	public void moveLeft() {

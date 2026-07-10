@@ -47,6 +47,7 @@ public class Gui {
 	public Gui() {
 		this.objTree = ObjTree.getObjTree();
 		objTree.setGui(this);
+		objTree.getDatabaseManager().createTableIfNotExists();
 		initialize();
 		objTree.setFieldPanel(fieldPanel);
 		initKeyBindings();
@@ -161,7 +162,7 @@ public class Gui {
 			
 			
 			
-		Preview previewBox = new Preview(objTree);
+		Preview previewBox = objTree.getPreview();
 			previewBox.setBounds(440, 100, 200, 300);
 			previewBox.setBackground(new Color(200, 120, 255));
 			panel.add(previewBox);

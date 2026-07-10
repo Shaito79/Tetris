@@ -1,25 +1,15 @@
 package Tetris;
 
-//<<<<<<< HEAD
-	
-	import javax.swing.*;
-	import java.awt.*;
-//=======
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-//>>>>>>> branch 'master' of https://github.com/Shaito79/Tetris.git
 
 public class Preview extends JPanel {
-	
-
-
-
-	
 
 	private static final long serialVersionUID = 1L;
 	private ObjTree objTree;
@@ -33,23 +23,7 @@ public class Preview extends JPanel {
 	public Preview(ObjTree objTree) {
 		this.objTree = objTree;
 		setPreferredSize(new Dimension(200, 3 * SLOT_HOEHE));
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
-
-	     
-        setLayout(new GridLayout(3, 1));   // verteilen
-
-        
-        JLabel bereich1 = new JLabel("Bereich 1", SwingConstants.CENTER);
-        	bereich1.setFont(new Font("Arial", Font.BOLD, 16));
-        	add(bereich1);
-
-        
-        JLabel bereich2 = new JLabel("Bereich 2", SwingConstants.CENTER);
-        	add(bereich2);
-
-        
-        JLabel bereich3 = new JLabel("Bereich 3", SwingConstants.CENTER);
-        	add(bereich3);
+		setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
 	}
 
 	@Override
@@ -101,21 +75,7 @@ public class Preview extends JPanel {
 			}
 
 			slot++;
+			}
 		}
 	}
-
-//	// exakt dieselbe Farbzuordnung wie in FieldPanel, damit die Vorschau
-//	// zum gerade fallenden bzw. abgelegten Steinen passt
-//	private Color getFarbe(int block) {
-//		switch (block) {
-//			case 1: return Color.CYAN;
-//			case 2: return Color.YELLOW;
-//			case 3: return Color.MAGENTA;
-//			case 4: return Color.GREEN;
-//			case 5: return Color.RED;
-//			case 6: return Color.BLUE;
-//			case 0: return Color.ORANGE;
-//			default: return Color.BLACK;
-//		}
-//	}
-}
+	

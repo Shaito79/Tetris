@@ -10,6 +10,8 @@ public class ObjTree {
 	private Score score;
 	private Preview preview;
 	private ColorScheme colorScheme;
+	private DatabaseManager databaseManager;
+
 	
 	private HighscoreWindow highscoreWindow = new HighscoreWindow();
 	
@@ -19,12 +21,22 @@ public class ObjTree {
 	public static ObjTree getObjTree() {
 		return objTree;
 	}
+	public DatabaseManager getDatabaseManager() {
+		if (databaseManager == null) databaseManager = new DatabaseManager();
+		return databaseManager;
+	}
+
 	public Gui getGui() {
 		return gui;
 	}
 
 	public void setGui(Gui gui) {
 		this.gui = gui;
+	}
+
+	public HighscoreWindow getHighscoreWindow() {
+		if(highscoreWindow == null) highscoreWindow = new HighscoreWindow();
+		return highscoreWindow;
 	}
 
 	public FieldPanel getFieldPanel() {
@@ -79,7 +91,7 @@ public class ObjTree {
 		this.tetromino = new Tetromino();
 		this.field = new Field(objTree);
 		this.score = new Score(objTree);
-		this.preview = new Preview(objTree);
+//		this.preview = new Preview(objTree);
 		this.colorScheme = new ColorScheme();
 		field.fillPreview();
 		field.putNewPiece();
@@ -88,10 +100,8 @@ public class ObjTree {
 		
 	}
 
-	public HighscoreWindow getHighscoreWindow() {
-		return this.highscoreWindow;
-		}
 	public Preview getPreview() {
+		if (preview == null) this.preview = new Preview(objTree);
 		return preview;
 	}
 

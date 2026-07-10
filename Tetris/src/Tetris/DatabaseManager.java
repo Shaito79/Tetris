@@ -9,8 +9,10 @@ import java.sql.ResultSet;
 public class DatabaseManager {
 	
 	private Connection connection;
+	private ObjTree objTree;
 	
 	public void connect() {
+		if (objTree == null) objTree = ObjTree.getObjTree(); 
 		try {
 			Class.forName("org.sqlite.JDBC"); 
 			
