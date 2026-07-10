@@ -1,5 +1,11 @@
 package Tetris;
 
+
+
+/**
+ * Diese Klasse Speichert, das aktuelle Level und gibt ausserdem den Anstoß um das aktuelle Tetromino ein feld nach unten zu bewegen.
+ * @author Ralf Bieller
+ */
 public class Timer extends Thread{
 	private ObjTree objTree;
 	private int level = 1;
@@ -20,6 +26,9 @@ public class Timer extends Thread{
 	public Timer(ObjTree objTree){
 	    this.objTree=objTree;
 	}
+	/**
+	 * Diese Methode ist das Herz der Klasse sie kümmert sich um Pause sowie die Gravitation der Steine.
+	 */
 	@Override
 	public void run() {
 		if (objTree == null) this.objTree = ObjTree.getObjTree();
@@ -35,9 +44,12 @@ public class Timer extends Thread{
 					Thread.sleep(timing[level - 1]);
 			} catch (Exception e) {
 			}
-			if(!terminated) objTree.getField().moveOneDown();
+			if(!terminated && run) objTree.getField().moveOneDown();
 		}
 	}
+	/**
+	 * Dies beendet den Thread
+	 */
 	public void terminate() {
 		terminated = true;
 		run = true; // falls gerade pausiert, damit die innere Schleife nicht hängen bleibt

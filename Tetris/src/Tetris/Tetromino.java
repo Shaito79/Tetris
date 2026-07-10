@@ -1,9 +1,10 @@
 
 
 package Tetris;
-
-import java.util.Random;
-
+/**
+ * Diese Klasse Speichert die Form der Tetrominos, sowie alle 4 möglichen Drehungen
+ * @author Ralf Bieller
+ */
 public class Tetromino {
 	private final int[][][][] pieces = {
 

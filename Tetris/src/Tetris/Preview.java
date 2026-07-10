@@ -9,6 +9,11 @@ import java.util.Iterator;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+/**
+ * Diese Klasse rendert die nächsten 3 erscheinenden Tetrominos
+ * @author Ralf Bieller
+ */
+
 public class Preview extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -25,7 +30,9 @@ public class Preview extends JPanel {
 		setPreferredSize(new Dimension(200, 3 * SLOT_HOEHE));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
 	}
-
+	/**
+	 * Diese Methode rendert das Preview Fenster neu
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

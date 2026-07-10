@@ -1,5 +1,8 @@
 package Tetris;
-
+/**
+ * Die Klasse, die alle Objekte referenziert.
+ * @author Ralf Bieller
+ */
 public class ObjTree {
 	private static final ObjTree objTree = new ObjTree();
 	private Timer timer;
@@ -13,7 +16,7 @@ public class ObjTree {
 	private DatabaseManager databaseManager;
 
 	
-	private HighscoreWindow highscoreWindow = new HighscoreWindow();
+	private HighscoreWindow highscoreWindow;
 	
 	private ObjTree() {
 	}
@@ -37,6 +40,10 @@ public class ObjTree {
 	public HighscoreWindow getHighscoreWindow() {
 		if(highscoreWindow == null) highscoreWindow = new HighscoreWindow();
 		return highscoreWindow;
+	}
+
+	public void setHighscoreWindow(HighscoreWindow highscoreWindow) {
+		this.highscoreWindow = highscoreWindow;
 	}
 
 	public FieldPanel getFieldPanel() {
@@ -91,7 +98,6 @@ public class ObjTree {
 		this.tetromino = new Tetromino();
 		this.field = new Field(objTree);
 		this.score = new Score(objTree);
-//		this.preview = new Preview(objTree);
 		this.colorScheme = new ColorScheme();
 		field.fillPreview();
 		field.putNewPiece();

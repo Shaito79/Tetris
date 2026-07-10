@@ -2,6 +2,10 @@ package Tetris;
 
 import java.awt.Color;
 
+/**
+ * In dieser Klasse werden die verschiedenen Color Schemes für die verschiedenen Level gespeichert
+ * @author Ralf Bieller
+ */
 public class ColorScheme {
 	
 	private static final Color[][] SCHEMES = {

@@ -6,6 +6,10 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+/**
+ * Diese Klasse rendert das Spielfeld
+ * @author Ralf Bieller
+ */
 public class FieldPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +28,9 @@ public class FieldPanel extends JPanel {
 	    			objTree.getField().BREITE * BLOCK_GROESSE,
 	    			objTree.getField().HOEHE * BLOCK_GROESSE));
 	    }
-
+	/**
+	 * Diese methode zeichnet das Spielfeld neu
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -92,16 +98,4 @@ public class FieldPanel extends JPanel {
 	    }
 	}
 
-//	    private Color getFarbe(int block) {
-//	        switch (block) {
-//	            case 1: return Color.CYAN;
-//	            case 2: return Color.YELLOW;
-//	            case 3: return Color.MAGENTA;
-//	            case 4: return Color.GREEN;
-//	            case 5: return Color.RED;
-//	            case 6: return Color.BLUE;
-//	            case 0: return Color.ORANGE;
-//	            default: return Color.BLACK;
-//	        }
-//	    }
 	}

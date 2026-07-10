@@ -6,11 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
+/**
+ * Diese Klasse stellt die Verbindung zur Datenbank her, speichert neue High Scores und lädt die bereits erstellten in das High Score Fenster.
+ * @author Adis Aslani
+ */
 public class DatabaseManager {
 	
 	private Connection connection;
 	private ObjTree objTree;
 	
+	/**
+	 * Die Datenbank wird Verbunden
+	 */
 	public void connect() {
 		if (objTree == null) objTree = ObjTree.getObjTree(); 
 		try {
@@ -30,7 +37,9 @@ public class DatabaseManager {
 			System.out.println("!! Fehler beim Verbinden: " + e.getMessage());
 		}
 	}
-	
+	/**
+	 * Die Datenbank wird getrennt.
+	 */
 	public void disconnect() {
 		try {
 			if (connection != null) {
@@ -41,7 +50,9 @@ public class DatabaseManager {
 			System.out.println("!! Fehler beim Schließen: " + e.getMessage());
 		}
 	}
-	
+	/**
+	 * Erstelle eine leere Tabelle, falls keine vorhanden ist.
+	 */
 	public void createTableIfNotExists() {
 		String sql = """
 			CREATE TABLE IF NOT EXISTS highscores (
@@ -60,7 +71,12 @@ public class DatabaseManager {
 			System.out.println("!! Fehler beim Erstellen der Tabelle: " + e.getMessage());
 		}
 	}
-	
+	/**
+	 * Speichere den aktuellen Spielstand in der Datenbank 
+	 * @param spielerName Der Name des Spielers
+	 * @param zeilenAnzahl Die Anzahl des in dem Spiel entfernten Zeilen
+	 * @param punktzahl	Die Punkteanzahl
+	 */
 	public void saveHighscore(String spielerName, int zeilenAnzahl, int punktzahl) {
 		
 		if (connection == null) {
@@ -84,7 +100,9 @@ public class DatabaseManager {
 			System.out.println("!! Fehler beim Speichern: " + e.getMessage());
 		}
 	}
-	
+	/**
+	 * Holt die aktuell 10 besten Spielergebnisse aus der Datenbank
+	 */
 	public void printTopHighscores() {
 		
 		if (connection == null) {
@@ -128,7 +146,9 @@ public class DatabaseManager {
 		}
 	}
 	
-
+	/**
+	 * Löscht all Einträge von der Datenbank
+	 */
 	public void clearAllHighscores() {
 		if (connection == null) {
 			System.out.println("!! Keine Datenbankverbindung! Rufe zuerst connect() auf.");

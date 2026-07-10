@@ -1,5 +1,9 @@
 package Tetris;
 
+/**
+ * Diese Klasse speichert den aktuellen Score des aktuellen Spiels
+ * @author Ralf Bieller
+ */
 public class Score {
 	private int score = 0;
 	private int rows = 0;
@@ -27,6 +31,10 @@ public class Score {
 	public void setName(String name) {
 		this.name = name;
 	}
+	/**
+	 * Diese Methode erhöht den Score um add.
+	 * @param add Der Betrag um den der Score erhöht werden soll.
+	 */
 	public void addScore(int add) {
 		int ergebnis = 0;
 		for(int i = 1; i <= add; i++) {
@@ -36,6 +44,10 @@ public class Score {
 		this.score += ergebnis;
 		objTree.getGui().lblScore.setText(Integer.toString(this.score));
 	}
+	/**
+	 * Diese Methode erhöht die gespeicherten Reihen um add:
+	 * @param add Der Betrag um den die gespeicherten Reihen erhöht wird.
+	 */
 	public void addRows(int add) {
 		
 		this.rows += add;

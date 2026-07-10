@@ -5,7 +5,7 @@
  * 
  */
 module Tetris {
-    requires java.desktop;
+    requires transitive java.desktop;
     requires java.sql;
 
     exports Tetris;

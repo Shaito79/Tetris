@@ -8,7 +8,12 @@ import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-
+/**
+ * Diese Klasse repräsentiert die GUI des Spieles, also alles ausserhlab von Spielfeld, Previewfeld und Highscorefeld.
+ * Alle diese Felder sind aber hier eingebunden.
+ * Ausserdem hat diese Klasse die main() Methode um das Spiel zu starten.
+ * @author Sebastian Wypior
+ */
 
 
 public class Gui {
@@ -47,7 +52,8 @@ public class Gui {
 	public Gui() {
 		this.objTree = ObjTree.getObjTree();
 		objTree.setGui(this);
-		objTree.getDatabaseManager().createTableIfNotExists();
+		objTree.getDatabaseManager().connect();
+		objTree.getDatabaseManager().disconnect();
 		initialize();
 		objTree.setFieldPanel(fieldPanel);
 		initKeyBindings();
@@ -144,6 +150,7 @@ public class Gui {
 			highscoreBox.setBounds(440, 410, 200, 300);
 
 			panel.add(highscoreBox);
+			objTree.setHighscoreWindow(highscoreBox);
 
 			
 		JLabel HIGHSCOR = new JLabel();
@@ -168,32 +175,6 @@ public class Gui {
 			panel.add(previewBox);
 			
 			
-			
-			
-		/**						abstand						fenstergrösse
-			fenster.setBounds(  200, 200,      			   700,     800);
-		 * 						x	 y	      			   breite   höhe
-		 *
-			x = 200 → Abstand vom linken Bildschirmrand
-			y = 200 → Abstand vom oberen Bildschirmrand
-					breite = 700 → Fensterbreite
-					höhe = 800 → Fensterhöhe
-					
-					
-					
-		// highscore.setText("Highscore: " + punktzahl);			
-			
-			
-			
-
-		/**
-		 * 
-		 * 
-		 * 	score		lvl
-		 * hi score 	name datum
-		 */
-		
-		
 		
 	}
 	private void initKeyBindings() {

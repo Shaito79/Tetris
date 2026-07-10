@@ -7,7 +7,11 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-
+/**
+ * Diese Klasse speichert alle bisher gefallenen und nicht gelöschten Steine.
+ * Ausserdem steuert sie das aktuelle Tertomino
+ * @author Ralf Bieller
+ */
 
 public class Field {
 
@@ -15,15 +19,21 @@ public class Field {
 	private ObjTree objTree;
 	public final int BREITE = 10;
 	public final int HOEHE = 22;
-	public int[][] field;
-	private int x, y, type, rot;
-	private ArrayDeque<Integer> preview = new ArrayDeque<Integer>();
-	
 	/**
-	 * ein field ist ein Datentyp, der abgelegte Steine im Tertis Feld speichert. Dazu wird das gesammte Spielfeld in einem 2 Dimensionalen Array repesentiert.
+	 * @ ein field ist ein Datentyp, der abgelegte Steine im Tertis Feld speichert. Dazu wird das gesammte Spielfeld in einem 2 Dimensionalen Array repesentiert.
 	 * -1 bedeuted leeres Feld
 	 * 0 - 6 stellt die Farbe eines Steins dar.
 	 */
+	public int[][] field;
+	/**
+	 * Diese variablen Speichern den Ort(x und y) die Rotation (rot) sowie den Tetromno Typ(typ)
+	 */
+	private int x, y, type, rot;
+	/**
+	 * Hierin werden die nächsten 3 Steien gespeichert.
+	 */
+	private ArrayDeque<Integer> preview = new ArrayDeque<Integer>();
+
 	
 	public Field(ObjTree objTree) {
 		this.objTree = objTree;
@@ -74,12 +84,17 @@ public class Field {
 
 		return ergebnis;
 	}
-
+    /**
+     * Fügt 3 Tetrominos dem Preview hinzu. Diese Methode wird beim Start des Spieles ausgeführt
+     */
 	public void fillPreview() {
 		addToPreview();
 		addToPreview();
 		addToPreview();
 	}
+	/**
+	 * Fügt 1 Tetromino dem Preview hinzu
+	 */
 	private void addToPreview() {
 		preview.add(random.nextInt(7));
 		objTree.getPreview().repaint();
@@ -88,6 +103,9 @@ public class Field {
 	public ArrayDeque<Integer> getPreview() {
 		return preview;
 	}
+	/**
+	 * Diese Methode setzt ein neues Teromino. Es holt sich den Typ von Preview und erstellt Das Tetromino in den den beiden 
+	 */
 	public void putNewPiece() {
 		type = preview.poll();
 		addToPreview();
@@ -97,25 +115,48 @@ public class Field {
 		if(collides(rot)) gameOver();
 		objTree.getFieldPanel().repaint();
 	}
-	private void gameOver() {
+	/**
+	 * Diese methode beendet das Spiel, fragt den Spieler nach seinem Namen und speichert den Score 
+	 */
+	private synchronized void gameOver() {
 		objTree.getTimer().pause();
-		String name = JOptionPane.showInputDialog("Du hast verloren!\nAber gib deinen Namen ein, dann schauen wir ob du einen Highscore hast.");
+		String name = JOptionPane.showInputDialog(objTree.getGui()  ,"Du hast verloren!\nAber gib deinen Namen ein, dann schauen wir ob du einen Highscore hast.");
+		
+		if (name == null || name.trim().isEmpty()) {
+			name = "Anonym";
+		}
 		int points = objTree.getScore().getScore();
 		int rows = objTree.getScore().getRows();
-		objTree.getDatabaseManager().saveHighscore(name, rows, points);
-		
+
+		DatabaseManager db = objTree.getDatabaseManager();
+		db.connect();
+		db.saveHighscore(name, rows, points);
+		db.disconnect();
+
+		objTree.getHighscoreWindow().reloadHighscores();
+		objTree.getTimer().terminate();
 	}
+	/**
+	 * Bewegt das Tetromino nach links
+	 */
 	public void moveLeft() {
 		if(!collides(rot, x-1, y)) x--;
 		objTree.getFieldPanel().repaint();
 		
 	}
+	/**
+	 * Bewegt das Tetromino nach rechts
+	 */
 	public void moveRight() {
 
 		if(!collides(rot, x+1, y)) x++;
 		objTree.getFieldPanel().repaint();
 	}
-	public boolean moveOneDown() {
+	/**
+	 * Diese Methode bewegt das aktuelle Tetromino ein Feld nach unten
+	 * @return True falls unter dem Tetromino ein Stein ist
+	 */
+	public synchronized boolean moveOneDown() {
 		boolean blockDarunter = false;
 		int gx, gy;
 		int[][] temp = objTree.getTetromino().getPiece(type, rot);
@@ -149,7 +190,10 @@ public class Field {
 			
 		
 	}
-
+	/**
+	 * Diese Methode fügt das aktuelle Tetromino den abgelegten hinzu und prüft dannach auf 
+	 * volle Reihen. Falls er welche findet werden diese gelöscht.
+	 */
 	public void setPiece() {
 		// Tetromino dem Hintergrund hinzufügen
 		int gx, gy;
@@ -183,7 +227,9 @@ public class Field {
 		putNewPiece();
 		
 	}
-
+	/**
+	 * Dies Methode dreht das aktuelle Teromino und prüft ob dadurch Kollisionen enstehen
+	 */
 	public void rotatePiece() {
 		int neueRot = (rot + 1) %4;
 		if(!collides(neueRot)) rot = neueRot;
@@ -191,6 +237,13 @@ public class Field {
 		objTree.getFieldPanel().repaint();
 		
 	}
+	/**
+	 * Diese Methode versucht ein rotiertes Tetromino etwas nach liks oder rechts zu verschieben,
+	 * drehen mölich wird.
+	 * @param rot Die zu prüfende Rotation. Erlaubte Werte 0 - 3
+	 * @return True für: Ich habe eine position gefunden in der ich das Teromino drehen kann.
+	 * 		   False für: keine Position gefunden, drehen nicht möglich
+	 */
 	public boolean wallKick(int rot) {
 		int nx, ny;
 		int[][] kicks = {
@@ -212,6 +265,14 @@ public class Field {
 		}
 		return false;
 	}
+	/**
+	 * Diese Methode überprüft ob ein Tetromino mit andern Steinen oder dem Levelrand kollidiert
+	 * @param rot Die zu testende Rotation. Erlaubte Werte: 0-3
+	 * @param nx Der zu testende x wert für die Position
+	 * @param ny Der zu testende y wert für die Position
+	 * @return True für: kollidiert
+	 * 		   False für: kollidiert nicht
+	 */
 	public boolean collides(int rot, int nx, int ny) {
 		int[][] piece = objTree.getTetromino().getPiece(type, rot);
 	    for (int ty = 0; ty < piece.length; ty++) {
@@ -236,7 +297,12 @@ public class Field {
         return false;
         
     }
-    
+	/**
+	 * Diese Methode überprüft ob ein Tetromino mit andern Steinen oder dem Levelrand kollidiert
+	 * @param rot Die zu testende Rotation. Erlaubte Werte: 0-3
+	 * @return True für: kollidiert
+	 * 		   False für: kollidiert nicht
+	 */
     public boolean collides(int rot) {
         return collides(rot, this.x, this.y);
     }
