@@ -46,5 +46,8 @@ public class Score {
 		}
 	}
 	
-
+	// Korrigierte Methode: Gibt jetzt den echten int-Wert zurück
+	public int getPoints() {
+		return this.score;
+	}
 }

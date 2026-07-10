@@ -9,7 +9,8 @@ public class ObjTree {
 	private FieldPanel fieldPanel;
 	private Score score;
 	
-
+	private HighscoreWindow highscoreWindow = new HighscoreWindow();
+	
 	private ObjTree() {
 	}
 	
@@ -74,6 +75,10 @@ public class ObjTree {
 		timer.start();
 		timer.unpause();
 		
+	}
+
+	public HighscoreWindow getHighscoreWindow() {
+		return this.highscoreWindow;
 	}
 
 

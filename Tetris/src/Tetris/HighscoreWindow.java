@@ -1,13 +1,17 @@
 package Tetris;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class HighscoreWindow extends JFrame {
 
@@ -19,11 +23,10 @@ public class HighscoreWindow extends JFrame {
     }
     
     private void initialize() {
-        
         setTitle("Tetris - Top 10 Highscores");
         setBounds(100, 100, 800, 600); // 800 Breit, 600 Hoch
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Schließt nur dieses Fenster, nicht das ganze Spiel
-        getContentPane().setLayout(null); // ABSOLUTES LAYOUT (wie du es magst)
+        getContentPane().setLayout(null); // ABSOLUTES LAYOUT
 
         // 2. Die Tabelle erstellen
         tableHighscores = new JTable();
@@ -73,6 +76,39 @@ public class HighscoreWindow extends JFrame {
         
         tableHighscores.setModel(model);
     }
+
+    public void newHighScore(Score score) {
+        // 1. Dialog zur Namenseingabe öffnen
+    	 String name;
+    	do {
+    		name = JOptionPane.showInputDialog(this, 
+                "Game Over!\nDeine Punkte: " + score.getPoints() + "\nGib deinen Namen ein:");
+    	} while (name != null && !name.trim().isEmpty());
+        // 2. Prüfen, ob der User etwas eingegeben hat
+  
+            // Aktuelles Datum für SQLite formatieren
+            String aktuellesDatum = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            
+            String sql = "INSERT INTO highscores (Name, punktzahl, zeilen_anzahl, zeitpunkt) VALUES (?, ?, ?, ?)";
+            
+            // 3. In die Datenbank schreiben
+            try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tetris.db");
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                
+                pstmt.setString(1, name.trim());
+                pstmt.setInt(2, score.getPoints());
+                pstmt.setInt(3, score.getRows());
+                pstmt.setString(4, aktuellesDatum);
+                
+                pstmt.executeUpdate();
+                
+            } catch (SQLException e) {
+                System.out.println("Fehler beim Speichern des Highscores: " + e.getMessage());
+            }
+            
+            // 4. Ansicht aktualisieren und Fenster anzeigen
+            loadHighscores();
+            setVisible(true);
+        
+    }
 }
-
-
