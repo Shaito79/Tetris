@@ -120,7 +120,8 @@ public class Field {
 	 */
 	private synchronized void gameOver() {
 		objTree.getTimer().pause();
-		String name = JOptionPane.showInputDialog(objTree.getGui()  ,"Du hast verloren!\nAber gib deinen Namen ein, dann schauen wir ob du einen Highscore hast.");
+		String name = JOptionPane.showInputDialog("Du hast verloren!\nAber gib deinen Namen ein, dann schauen wir ob du einen Highscore hast.");
+
 		
 		if (name == null || name.trim().isEmpty()) {
 			name = "Anonym";
