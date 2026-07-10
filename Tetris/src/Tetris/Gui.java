@@ -65,13 +65,14 @@ public class Gui {
 		
 		
 
-		
+
 		
 		
 		
 		
 		
 		panel = new JPanel();
+//		panel = new JPanel();
 		fenster.getContentPane().add(panel);      // Panel in das Fenster einfügen
 		
 		panel.setLayout(null);
@@ -86,19 +87,24 @@ public class Gui {
 		
 		
 		
-		JButton button = new JButton("AN");			// button erstellen
-		button.addActionListener(new ActionListener() {
+		JButton btnNeuesSpiel = new JButton("Neues Spiel");			// button erstellen
+		btnNeuesSpiel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				objTree.newGame();
 			}
 		});
-			button.setBounds(100, 20, 100, 40);		// posetion
-			button.setBackground(Color.GREEN);
-			panel.add(button); 						// Button in das Panel einfügen		
+			btnNeuesSpiel.setBounds(100, 20, 100, 40);		// posetion
+			btnNeuesSpiel.setBackground(Color.GREEN);
+			panel.add(btnNeuesSpiel); 						// Button in das Panel einfügen		
 
-			button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true)); // kasten
+			btnNeuesSpiel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true)); // kasten
 			
 		JButton button2 = new JButton ("PAUSE");
+		button2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				objTree.getTimer().switchPause();
+			}
+		});
 			button2.setBounds(200, 20, 100, 40);
 			button2.setBackground(Color.red);
 			panel.add(button2);
@@ -111,6 +117,8 @@ public class Gui {
 			scoreBox.setBounds(440, 20, 200, 60);  
 			scoreBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
 			panel.add(scoreBox);
+			scoreBox.setBackground(new Color(180, 220, 255));   // hellblau
+			scoreBox.setOpaque(true);                           // Hintergrund sichtbar machen
 			
 		JLabel scoreN = new JLabel("SCORE      LVL      ROWS");
 			scoreN.setBounds(10, 10, 200, 20);
@@ -131,26 +139,34 @@ public class Gui {
 			
 			
 		
-	JPanel highscoreBox = new JPanel();
-			highscoreBox.setLayout(null);                     
-			highscoreBox.setBounds(440, 100, 200,600);        
-			highscoreBox.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3, true)); 
-			highscoreBox.setBackground(Color.WHITE);          // Hintergrund sichtbar machen
-			highscoreBox.setOpaque(true);
+		HighscoreWindow highscoreBox = new HighscoreWindow();
+			highscoreBox.setBounds(440, 410, 200, 300);
+
 			panel.add(highscoreBox);
 
 			
-		JLabel HIGHSCOR = new JLabel("HIGHSCORE");
+		JLabel HIGHSCOR = new JLabel();
 			HIGHSCOR.setBounds(10, 5, 200, 20);
 			highscoreBox.add(HIGHSCOR);
 
 		
-		JLabel NameD = new JLabel("sebastian   9999   07.07.2026");
+		JLabel NameD = new JLabel();
 			NameD.setBounds(10, 30, 200, 20);
 			highscoreBox.add(NameD);
 				
 
 
+			panel.setBackground(new Color(255, 255, 0));  // hintergrundfar
+			panel.setOpaque(true);		
+			
+			
+			
+		Preview previewBox = new Preview(objTree);
+			previewBox.setBounds(440, 100, 200, 300);
+			previewBox.setBackground(new Color(200, 120, 255));
+			panel.add(previewBox);
+			
+			
 			
 			
 		/**						abstand						fenstergrösse

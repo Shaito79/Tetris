@@ -8,6 +8,8 @@ public class ObjTree {
 	private Gui gui;
 	private FieldPanel fieldPanel;
 	private Score score;
+	private Preview preview;
+	private ColorScheme colorScheme;
 	
 	private HighscoreWindow highscoreWindow = new HighscoreWindow();
 	
@@ -34,6 +36,7 @@ public class ObjTree {
 	}
 
 	public Timer getTimer() {
+		if(timer == null) timer = new Timer(objTree);
 		return timer;
 	}
 
@@ -52,6 +55,7 @@ public class ObjTree {
 	}
 
 	public Field getField() {
+		if (field == null) this.field = new Field(objTree);
 		return field;
 	}
 
@@ -66,11 +70,18 @@ public class ObjTree {
 		this.score = score;
 	}
 
+	public ColorScheme getColorScheme() {
+		return colorScheme;
+	}
+
 	public void newGame() {
 		this.timer = new Timer(objTree);
 		this.tetromino = new Tetromino();
 		this.field = new Field(objTree);
 		this.score = new Score(objTree);
+		this.preview = new Preview(objTree);
+		this.colorScheme = new ColorScheme();
+		field.fillPreview();
 		field.putNewPiece();
 		timer.start();
 		timer.unpause();
@@ -79,6 +90,9 @@ public class ObjTree {
 
 	public HighscoreWindow getHighscoreWindow() {
 		return this.highscoreWindow;
+		}
+	public Preview getPreview() {
+		return preview;
 	}
 
 
